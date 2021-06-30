@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Metric-Imperial Converter</title>
+    <link rel="stylesheet" href="./public/style.css">
+  </head>
+
+  <body>
+    <header>
+      <h1>Metric-Imperial Converter</h1>
+    </header>
+    <hr />
+    <section>
+      <div id='testui' >
+        <h3>Converter</h3>
+        <form id="convertForm" class="border">
+          <input type="text" id="convertField" name="input" placeholder="5.37kg" style="width: 200px">
+          <input id="convert" type="submit" value='Convert!'>
+        </form>
+        <p id='result'></p>
+        <code id='jsonResult'></code>
+      </div>
+    </section>
+    <hr />
+    <section>
+      <h3>Usage</h3>
+      <p>Convert between L and gal</p>
+      <p>Convert between km and mi</p>
+      <p>Convert between kg and lbs</p>
+    </section>
+
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
+    <script>
+      $(function() {
+        $('#convertForm').submit(function(event) {
+          event.preventDefault();
+          $.ajax({
+            url: '/api/convert',
+            type: 'get',
+            data: $('#convertForm').serialize(),
+            success: function(data) {
+              $('#result').text(data.string || data);
+              $('#jsonResult').text(JSON.stringify(data));
+            }
+          });
+        });
+      });
+   </script>
+  </body>
+</html>
